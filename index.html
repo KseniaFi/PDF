@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding "Curveball" - Interactive PDF</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Source+Sans+Pro:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-image: url('Photo/1760610653423.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .content-wrapper {
+            background-color: rgba(255, 255, 255, 0.92);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            min-height: 100vh;
+        }
+        
+        .header-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        
+        .quote-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 20px;
+            border-left: 4px solid #4a6fa5;
+            background-color: rgba(74, 111, 165, 0.05);
+        }
+        
+        .quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .quote-author {
+            font-style: italic;
+            color: #555;
+        }
+        
+        .interactive-section {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .question {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            cursor: pointer;
+            padding: 12px;
+            background-color: rgba(74, 111, 165, 0.1);
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+        
+        .question:hover {
+            background-color: rgba(74, 111, 165, 0.2);
+        }
+        
+        .answer {
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 6px;
+            display: none;
+            border-left: 3px solid #4a6fa5;
+        }
+        
+        .mindmap {
+            margin: 40px 0;
+        }
+        
+        .mindmap-title {
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+        
+        .mindmap-branch {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .branch-1 {
+            background-color: rgba(255, 200, 200, 0.3);
+            border-left: 5px solid #e74c3c;
+        }
+        
+        .branch-2 {
+            background-color: rgba(200, 230, 255, 0.3);
+            border-left: 5px solid #3498db;
+        }
+        
+        .branch-3 {
+            background-color: rgba(200, 255, 200, 0.3);
+            border-left: 5px solid #2ecc71;
+        }
+        
+        .branch-4 {
+            background-color: rgba(255, 255, 200, 0.3);
+            border-left: 5px solid #f1c40f;
+        }
+        
+        .branch-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .practice-section {
+            margin: 40px 0;
+        }
+        
+        .practice-title {
+            font-weight: 600;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .practice-item {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .original-sentence {
+            margin-bottom: 10px;
+            font-style: italic;
+            color: #555;
+        }
+        
+        .answers-section {
+            margin: 40px 0;
+            padding: 25px;
+            background-color: rgba(240, 248, 255, 0.8);
+            border-radius: 8px;
+            border-left: 5px solid #2ecc71;
+        }
+        
+        .answers-title {
+            font-weight: 600;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .answer-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 6px;
+        }
+        
+        .rewritten-sentence {
+            font-weight: 500;
+            color: #2c3e50;
+            padding-left: 20px;
+            border-left: 3px solid #4a6fa5;
+        }
+        
+        .checkmark {
+            color: #2ecc71;
+            margin-left: 10px;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin: 30px 0 20px;
+            color: #2c3e50;
+            border-bottom: 2px solid #4a6fa5;
+            padding-bottom: 8px;
+        }
+        
+        .instruction {
+            font-style: italic;
+            color: #666;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-wrapper">
+        <img src="Photo/Screenshot_20251016_141353_Gallery.jpg" alt="Jenna Ortega and Emma Myers" class="header-image">
+        <div class="image-caption">Jenna Ortega and Emma Myers: The Kitten Interview🐾<br>BuzzFeed Celeb✨</div>
+        
+        <div class="quote-section">
+            <div class="quote">"The sixth episode was a curveball for everyone involved"</div>
+            <div class="quote-author">(Jenna Ortega)</div>
+        </div>
+        
+        <h2 class="section-title">Understanding "Curveball"</h2>
+        
+        <div class="interactive-section">
+            <div class="question" onclick="toggleAnswer('answer1')">What do you think "a curveball" is?</div>
+            <div id="answer1" class="answer">
+                <div class="question" onclick="toggleAnswer('answer2')">1) Is "a curveball" a real physical ball here or a problem / surprise?</div>
+                <div id="answer2" class="answer">
+                    In this context, "a curveball" is not a physical ball. It refers to a problem or surprise that is unexpected and difficult to deal with.
+                </div>
+                
+                <div class="question" onclick="toggleAnswer('answer3')">2) Would you say that "a curveball" is usually good or bad for your plans?</div>
+                <div id="answer3" class="answer">
+                    Typically, "a curveball" is seen as negative for your plans because it requires you to adapt quickly to an unexpected situation that can disrupt what you had planned.
+                </div>
+                
+                <div class="question" onclick="toggleAnswer('answer4')">3) Is "a curveball" something you expect to happen or something surprising?</div>
+                <div id="answer4" class="answer">
+                    A curveball is always surprising and unexpected. If you were expecting it, it wouldn't be a curveball!
+                </div>
+                
+                <div class="question" onclick="toggleAnswer('answer5')">4) If something is "a curveball", does it mean it was planned or unplanned?</div>
+                <div id="answer5" class="answer">
+                    A curveball is always unplanned. It's something that happens unexpectedly and forces you to change your approach or strategy.
+                </div>
+            </div>
+        </div>
+        
+        <div class="mindmap">
+            <div class="mindmap-title">MINDMAP: Understanding "Curveball"</div>
+            
+            <div class="mindmap-branch branch-1">
+                <div class="branch-title">1) Literal Meaning:</div>
+                <p>In baseball, "a curveball" is a pitch that looks like it will go straight, but then curves unexpectedly, surprising the batter.</p>
+            </div>
+            
+            <div class="mindmap-branch branch-2">
+                <div class="branch-title">2) Figurative Meaning:</div>
+                <p>Something, such as a question, event, or situation, that is surprising, unexpected, and difficult to deal with. Often something that requires quick adaptation or causes confusion.</p>
+            </div>
+            
+            <div class="mindmap-branch branch-3">
+                <div class="branch-title">3) Origin & Metaphor:</div>
+                <p>Metaphor for life situations that don't go as predicted or expected.</p>
+            </div>
+            
+            <div class="mindmap-branch branch-4">
+                <div class="branch-title">4) Common Usage:</div>
+                <p><strong>Throw someone a curveball</strong> - To surprise someone with a difficult or unexpected problem, question, or situation that is hard to deal with. It comes from the idea of the tricky baseball pitch that's hard to react to.</p>
+            </div>
+        </div>
+        
+        <div class="practice-section">
+            <div class="practice-title">PRACTICE: Using "throw someone a curveball"</div>
+            <p class="instruction">Use the idiom "throw someone a curveball" to rewrite the following sentences so they sound natural.</p>
+            
+            <div class="practice-item">
+                <div class="original-sentence">1) The boss surprised the team by changing the deadline at the last minute.</div>
+                <div class="rewritten-sentence">Your answer: ___________________________________</div>
+            </div>
+            
+            <div class="practice-item">
+                <div class="original-sentence">2) The teacher set a difficult question that no one expected during the exam.</div>
+                <div class="rewritten-sentence">Your answer: ___________________________________</div>
+            </div>
+            
+            <div class="practice-item">
+                <div class="original-sentence">3) My friend cancelled our plans only an hour before we were supposed to meet.</div>
+                <div class="rewritten-sentence">Your answer: ___________________________________</div>
+            </div>
+            
+            <div class="practice-item">
+                <div class="original-sentence">4) The coach made an unusual strategy change right before the game started.</div>
+                <div class="rewritten-sentence">Your answer: ___________________________________</div>
+            </div>
+        </div>
+
+        <div class="answers-section">
+            <div class="answers-title">ANSWER KEY</div>
+            
+            <div class="answer-item">
+                <div class="original-sentence">1) The boss surprised the team by changing the deadline at the last minute.</div>
+                <div class="rewritten-sentence">The boss threw the team a curveball by changing the deadline at the last minute.<span class="checkmark">👈</span></div>
+            </div>
+            
+            <div class="answer-item">
+                <div class="original-sentence">2) The teacher set a difficult question that no one expected during the exam.</div>
+                <div class="rewritten-sentence">The teacher threw the students a curveball with a difficult, unexpected question during the exam.<span class="checkmark">👈</span></div>
+            </div>
+            
+            <div class="answer-item">
+                <div class="original-sentence">3) My friend cancelled our plans only an hour before we were supposed to meet.</div>
+                <div class="rewritten-sentence">My friend threw me a curveball by cancelling our plans just an hour before we were supposed to meet.<span class="checkmark">👈</span></div>
+            </div>
+            
+            <div class="answer-item">
+                <div class="original-sentence">4) The coach made an unusual strategy change right before the game started.</div>
+                <div class="rewritten-sentence">The coach threw the players a curveball with an unusual strategy change just before the game.<span class="checkmark">👈</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(id) {
+            const answer = document.getElementById(id);
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+            } else {
+                answer.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
