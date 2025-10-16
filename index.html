@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Document - Curveball Idiom</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Source+Sans+Pro:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .pdf-container {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            background: white;
+            padding: 25mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .header-image {
+            width: 100%;
+            max-height: 120px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        
+        .image-caption {
+            text-align: center;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .quote-section {
+            text-align: center;
+            margin: 25px 0;
+            padding: 15px;
+            border-left: 3px solid #4a6fa5;
+            background-color: rgba(74, 111, 165, 0.05);
+        }
+        
+        .quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .quote-author {
+            font-style: italic;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .section {
+            margin: 25px 0;
+        }
+        
+        .section-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin: 20px 0 15px;
+            color: #2c3e50;
+            border-bottom: 1px solid #4a6fa5;
+            padding-bottom: 5px;
+        }
+        
+        .question-block {
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: rgba(74, 111, 165, 0.08);
+            border-radius: 4px;
+        }
+        
+        .question {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .answer {
+            color: #555;
+            font-size: 14px;
+            padding-left: 10px;
+            border-left: 2px solid #4a6fa5;
+        }
+        
+        .mindmap-branch {
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 4px;
+            page-break-inside: avoid;
+        }
+        
+        .branch-1 {
+            background-color: rgba(255, 200, 200, 0.2);
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .branch-2 {
+            background-color: rgba(200, 230, 255, 0.2);
+            border-left: 4px solid #3498db;
+        }
+        
+        .branch-3 {
+            background-color: rgba(200, 255, 200, 0.2);
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .branch-4 {
+            background-color: rgba(255, 255, 200, 0.2);
+            border-left: 4px solid #f1c40f;
+        }
+        
+        .branch-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-size: 15px;
+        }
+        
+        .practice-item {
+            margin-bottom: 20px;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .original-sentence {
+            margin-bottom: 10px;
+            font-style: italic;
+            color: #555;
+        }
+        
+        .answer-space {
+            height: 20px;
+            border-bottom: 1px dashed #ccc;
+            margin: 10px 0;
+        }
+        
+        .answers-section {
+            margin: 30px 0 0 0;
+            padding: 20px;
+            background-color: rgba(240, 248, 255, 0.8);
+            border-radius: 6px;
+            border-left: 4px solid #2ecc71;
+            page-break-before: always;
+        }
+        
+        .answers-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .answer-item {
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 4px;
+        }
+        
+        .rewritten-sentence {
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        .checkmark {
+            color: #2ecc71;
+            margin-left: 8px;
+        }
+        
+        .download-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4a6fa5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            z-index: 1000;
+        }
+        
+        .download-btn:hover {
+            background: #3a5a80;
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .pdf-container {
+                box-shadow: none;
+                margin: 0;
+                padding: 15mm;
+            }
+            .download-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="download-btn" onclick="downloadPDF()">Download PDF</button>
+
+    <div class="pdf-container" id="pdf-content">
+        <img src="Photo/Screenshot_20251016_141353_Gallery.jpg" alt="Jenna Ortega and Emma Myers" class="header-image">
+        <div class="image-caption">Jenna Ortega and Emma Myers: The Kitten Interview🐾<br>BuzzFeed Celeb✨</div>
+        
+        <div class="quote-section">
+            <div class="quote">"The sixth episode was a curveball for everyone involved"</div>
+            <div class="quote-author">(Jenna Ortega)</div>
+        </div>
+        
+        <div class="section">
+            <div class="question-block">
+                <div class="question">What do you think "a curveball" is?</div>
+                <div class="answer">
+                    <div class="question">1) Is "a curveball" a real physical ball here or a problem / surprise?</div>
+                    <div class="answer">In this context, "a curveball" is not a physical ball. It refers to a problem or surprise that is unexpected and difficult to deal with.</div>
+                    
+                    <div class="question">2) Would you say that "a curveball" is usually good or bad for your plans?</div>
+                    <div class="answer">Typically, "a curveball" is seen as negative for your plans because it requires you to adapt quickly to an unexpected situation that can disrupt what you had planned.</div>
+                    
+                    <div class="question">3) Is "a curveball" something you expect to happen or something surprising?</div>
+                    <div class="answer">A curveball is always surprising and unexpected. If you were expecting it, it wouldn't be a curveball!</div>
+                    
+                    <div class="question">4) If something is "a curveball", does it mean it was planned or unplanned?</div>
+                    <div class="answer">A curveball is always unplanned. It's something that happens unexpectedly and forces you to change your approach or strategy.</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">MINDMAP: Curveball</div>
+            
+            <div class="mindmap-branch branch-1">
+                <div class="branch-title">1) Literal Meaning:</div>
+                <p>In baseball, "a curveball" is a pitch that looks like it will go straight, but then curves unexpectedly, surprising the batter.</p>
+            </div>
+            
+            <div class="mindmap-branch branch-2">
+                <div class="branch-title">2) Figurative Meaning:</div>
+                <p>Something, such as a question, event, or situation, that is surprising, unexpected, and difficult to deal with. Often something that requires quick adaptation or causes confusion.</p>
+            </div>
+            
+            <div class="mindmap-branch branch-3">
+                <div class="branch-title">3) Origin & Metaphor:</div>
+                <p>Metaphor for life situations that don't go as predicted or expected.</p>
+            </div>
+            
+            <div class="mindmap-branch branch-4">
+                <div class="branch-title">4) Common Usage:</div>
+                <p><strong>Throw someone a curveball</strong> - To surprise someone with a difficult or unexpected problem, question, or situation that is hard to deal with. It comes from the idea of the tricky baseball pitch that's hard to react to.</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">PRACTICE EXERCISES</div>
+            <p>Use the idiom "throw someone a curveball" to rewrite the following sentences so they sound natural.</p>
+            
+            <div class="practice-item">
+                <div class="original-sentence">1) The boss surprised the team by changing the deadline at the last minute.</div>
+                <div class="answer-space"></div>
+            </div>
+            
+            <div class="practice-item">
+                <div class="original-sentence">2) The teacher set a difficult question that no one expected during the exam.</div>
+                <div class="answer-space"></div>
+            </div>
+            
+            <div class="practice-item">
+                <div class="original-sentence">3) My friend cancelled our plans only an hour before we were supposed to meet.</div>
+                <div class="answer-space"></div>
+            </div>
+            
+            <div class="practice-item">
+                <div class="original-sentence">4) The coach made an unusual strategy change right before the game started.</div>
+                <div class="answer-space"></div>
+            </div>
+        </div>
+
+        <div class="answers-section">
+            <div class="answers-title">ANSWER KEY</div>
+            
+            <div class="answer-item">
+                <div class="original-sentence">1) The boss surprised the team by changing the deadline at the last minute.</div>
+                <div class="rewritten-sentence">The boss threw the team a curveball by changing the deadline at the last minute.<span class="checkmark">👈</span></div>
+            </div>
+            
+            <div class="answer-item">
+                <div class="original-sentence">2) The teacher set a difficult question that no one expected during the exam.</div>
+                <div class="rewritten-sentence">The teacher threw the students a curveball with a difficult, unexpected question during the exam.<span class="checkmark">👈</span></div>
+            </div>
+            
+            <div class="answer-item">
+                <div class="original-sentence">3) My friend cancelled our plans only an hour before we were supposed to meet.</div>
+                <div class="rewritten-sentence">My friend threw me a curveball by cancelling our plans just an hour before we were supposed to meet.<span class="checkmark">👈</span></div>
+            </div>
+            
+            <div class="answer-item">
+                <div class="original-sentence">4) The coach made an unusual strategy change right before the game started.</div>
+                <div class="rewritten-sentence">The coach threw the players a curveball with an unusual strategy change just before the game.<span class="checkmark">👈</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function downloadPDF() {
+            const element = document.getElementById('pdf-content');
+            const opt = {
+                margin: [15, 15, 15, 15],
+                filename: 'curveball_idiom_worksheet.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // Auto-download when page loads (optional - uncomment if needed)
+        // window.onload = function() {
+        //     setTimeout(downloadPDF, 1000);
+        // };
+    </script>
+</body>
+</html>
